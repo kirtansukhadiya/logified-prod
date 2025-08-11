@@ -41,9 +41,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Serve static files
-app.use('/css', express.static(path.join(__dirname, '../css')));
-app.use('/js', express.static(path.join(__dirname, '../js')));
-app.use('/assets', express.static(path.join(__dirname, '../assets')));
+app.use('/css', express.static(path.join(__dirname, '/css')));
+app.use('/js', express.static(path.join(__dirname, '/js')));
+app.use('/assets', express.static(path.join(__dirname, '/assets')));
 
 // Email transporter configuration
 const transporter = nodemailer.createTransport({
