@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <script>
+        // Immediately apply the saved theme
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    {{#if (eq currentPage 'home')}}
+    <link rel="stylesheet" href="/css/home.css">
+    {{/if}}
+    {{#if (eq currentPage 'about')}}
+    <link rel="stylesheet" href="/css/about.css">
+    {{/if}}
+    {{#if (eq currentPage 'products')}}
+    <link rel="stylesheet" href="/css/products.css">
+    {{/if}}
+    {{#if (eq currentPage 'contact')}}
+    <link rel="stylesheet" href="/css/contact.css">
+    {{/if}}
+    {{#if (eq currentPage '404')}}
+    <link rel="stylesheet" href="/css/error.css">
+    {{/if}}
+    {{#if (eq currentPage 'error')}}
+    <link rel="stylesheet" href="/css/error.css">
+    {{/if}}
+    
+    <!-- Lottie Animation -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</head>
+<body class="{{#if (eq currentPage 'home')}}home-page{{/if}}">
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="logo">LOGIFIED SOLUTIONS</a>
+            <ul class="nav-links">
+                <li><a href="/" class="{{#if (eq currentPage 'home')}}active{{/if}}">Home</a></li>
+                <li><a href="/about" class="{{#if (eq currentPage 'about')}}active{{/if}}">About Us</a></li>
+                <li><a href="/products" class="{{#if (eq currentPage 'products')}}active{{/if}}">Products & Services</a></li>
+                <li><a href="/why-choose" class="{{#if (eq currentPage 'why-choose')}}active{{/if}}">Why Choose Us</a></li>
+                <li><a href="/contact" class="{{#if (eq currentPage 'contact')}}active{{/if}}">Contact Us</a></li>
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </ul>
+            <div class="mobile-menu" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {{{body}}}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>LOGIFIED SOLUTIONS</h3>
+                    <p>Your trusted partner for all types of lifting equipment with expert engineering and reliable after-sales support.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/products">Products & Services</a></li>
+                        <li><a href="/why-choose">Why Choose Us</a></li>
+                        <li><a href="/contact">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p>📧 kirtanskh@gmail.com</p>
+                    <p>📱 +91 98765 43210</p>
+                    <p>📍 Gujarat, India</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; {{currentYear}} LOGIFIED SOLUTIONS. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/theme.js"></script>
+    <script src="/js/main.js"></script>
+    {{#if (eq currentPage 'contact')}}
+    <script src="/js/form.js"></script>
+    {{/if}}
+</body>
+</html>

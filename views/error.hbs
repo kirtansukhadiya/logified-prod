@@ -1,0 +1,15 @@
+<div class="container">
+    <div class="error-page">
+        <div class="error-content">
+            <h1 class="error-title">500</h1>
+            <h2 class="error-subtitle">Server Error</h2>
+            <p class="error-message">Something went wrong on our end. Please try again later.</p>
+            {{#if error}}
+            <div class="error-details">
+                <p><strong>Error:</strong> {{error}}</p>
+            </div>
+            {{/if}}
+            <a href="/" class="cta-button">Go Back Home</a>
+        </div>
+    </div>
+</div>
