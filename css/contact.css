@@ -1,0 +1,279 @@
+/* Contact Info Grid */
+.contact-info {
+  margin: 3rem 0;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: var(--card-bg);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.contact-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.contact-icon {
+  background: var(--primary-color);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .contact-icon {
+  background: #2563eb;
+  color: white;
+}
+
+.contact-item:hover .contact-icon {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(37, 99, 235, 0.3);
+}
+
+.contact-details h3 {
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.contact-details p {
+  color: var(--secondary-color);
+  margin: 0;
+}
+
+/* Contact Form */
+.contact-form {
+  background: var(--card-bg);
+  padding: 3rem;
+  border-radius: 15px;
+  box-shadow: var(--shadow);
+  max-width: 600px;
+  margin: 2rem auto;
+  border: 1px solid var(--border-color);
+}
+
+.form-content {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.form-animation {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.contact-form h2 {
+  text-align: center;
+  color: var(--text-color);
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--background-color);
+  color: var(--text-color);
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.submit-btn {
+  background: var(--primary-color);
+  color: white;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+[data-theme="dark"] .submit-btn {
+  background: #2563eb;
+  color: white;
+}
+
+[data-theme="dark"] .submit-btn:hover {
+  background: white;
+  color: #2563eb;
+}
+
+.submit-btn:hover {
+  background: #1e40af;
+  transform: translateY(-2px);
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Loading States */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.success-message {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  text-align: center;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.error-message {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  text-align: center;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+@media (max-width: 768px) {
+  .contact-form {
+    margin: 2rem 1rem;
+    padding: 2rem;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* Add these styles to your existing css/contact.css file */
+
+/* Form message styles */
+#formMessage {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 8px;
+  display: none;
+  text-align: center;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.5;
+  transition: all 0.3s ease;
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  animation: slideIn 0.5s ease;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  animation: slideIn 0.5s ease;
+}
+
+/* Dark theme support */
+[data-theme="dark"] .success-message {
+  background-color: #155724;
+  color: #d4edda;
+  border-color: #1e7e34;
+}
+
+[data-theme="dark"] .error-message {
+  background-color: #721c24;
+  color: #f8d7da;
+  border-color: #a94442;
+}
+
+.success-message i,
+.error-message i {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+@keyframes slideIn {
+  from {
+      opacity: 0;
+      transform: translateY(-10px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+/* Loading button improvements */
+.btn-loading {
+  display: none;
+}
+
+.submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
