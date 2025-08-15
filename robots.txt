@@ -1,5 +1,5 @@
 # LOGIFIED SOLUTIONS - Robots.txt
-# Generated on 2025-08-15T04:15:17.100Z
+# Generated on 2025-08-15T04:43:03.748Z
 
 User-agent: *
 Allow: /

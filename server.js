@@ -45,6 +45,7 @@ app.use(bodyParser.json());
 app.use('/css', express.static(path.join(__dirname, '/css')));
 app.use('/js', express.static(path.join(__dirname, '/js')));
 app.use('/assets', express.static(path.join(__dirname, '/assets')));
+app.use('/public', express.static(path.join(__dirname, '/public')));
 
 // Serve sitemap files
 app.get('/sitemap.xml', (req, res) => {
@@ -60,6 +61,11 @@ app.get('/sitemap.html', (req, res) => {
 app.get('/robots.txt', (req, res) => {
   res.header('Content-Type', 'text/plain');
   res.sendFile(path.join(__dirname, 'robots.txt'));
+});
+
+app.get('/manifest.json', (req, res) => {
+  res.header('Content-Type', 'application/json');
+  res.sendFile(path.join(__dirname, 'public/manifest.json'));
 });
 
 // Email transporter configuration
@@ -85,36 +91,51 @@ transporter.verify((error, success) => {
 // Routes
 app.get('/', (req, res) => {
   res.render('home', {
-    title: 'LOGIFIED SOLUTIONS - Complete Lifting Solutions',
-    currentPage: 'home'
+    title: 'LOGIFIED SOLUTIONS - Complete Lifting Solutions | India\'s Premier Lifting Equipment Manufacturer',
+    description: 'LOGIFIED SOLUTIONS is India\'s leading manufacturer of lifting equipment including EOT Cranes, Gantry Cranes, Jib Cranes, and Chain & Wire Rope Hoists. Custom engineering, fast delivery, and 24/7 support.',
+    keywords: 'LOGIFIED SOLUTIONS, lifting equipment, cranes, hoists, EOT cranes, gantry cranes, jib cranes, India, manufacturer, industrial lifting, construction equipment, custom engineering',
+    currentPage: 'home',
+    url: req.url
   });
 });
 
 app.get('/about', (req, res) => {
   res.render('about', {
-    title: 'About Us - LOGIFIED SOLUTIONS',
-    currentPage: 'about'
+    title: 'About LOGIFIED SOLUTIONS | Leading Lifting Equipment Manufacturer in India',
+    description: 'Learn about LOGIFIED SOLUTIONS, India\'s trusted manufacturer of lifting equipment with 12,000 sq. ft. facility, custom engineering, and expert support.',
+    keywords: 'LOGIFIED SOLUTIONS about, lifting equipment manufacturer India, crane manufacturer, industrial lifting company',
+    currentPage: 'about',
+    url: req.url
   });
 });
 
 app.get('/products', (req, res) => {
   res.render('products', {
-    title: 'Products & Services - LOGIFIED SOLUTIONS',
-    currentPage: 'products'
+    title: 'LOGIFIED SOLUTIONS Products & Services | EOT Cranes, Gantry Cranes, Jib Cranes',
+    description: 'Explore LOGIFIED SOLUTIONS comprehensive range of lifting equipment: EOT Cranes, Gantry Cranes, Jib Cranes, Chain & Wire Rope Hoists with custom engineering.',
+    keywords: 'LOGIFIED SOLUTIONS products, EOT cranes, gantry cranes, jib cranes, lifting equipment, industrial cranes',
+    currentPage: 'products',
+    url: req.url
   });
 });
 
 app.get('/why-choose', (req, res) => {
   res.render('why-choose', {
-    title: 'Why Choose Us - LOGIFIED SOLUTIONS',
-    currentPage: 'why-choose'
+    title: 'Why Choose LOGIFIED SOLUTIONS | Leading Lifting Equipment Manufacturer',
+    description: 'Discover why LOGIFIED SOLUTIONS is the preferred choice for lifting equipment: custom engineering, fast delivery, 24/7 support, and 12,000 sq. ft. facility.',
+    keywords: 'LOGIFIED SOLUTIONS why choose, best crane manufacturer, lifting equipment company, industrial crane supplier',
+    currentPage: 'why-choose',
+    url: req.url
   });
 });
 
 app.get('/contact', (req, res) => {
   res.render('contact', {
-    title: 'Contact Us - LOGIFIED SOLUTIONS',
-    currentPage: 'contact'
+    title: 'Contact LOGIFIED SOLUTIONS | Get Free Quote for Lifting Equipment',
+    description: 'Contact LOGIFIED SOLUTIONS for free consultation and quotes on lifting equipment. Expert team available for EOT Cranes, Gantry Cranes, and custom solutions.',
+    keywords: 'LOGIFIED SOLUTIONS contact, lifting equipment quote, crane manufacturer contact, free consultation',
+    currentPage: 'contact',
+    url: req.url
   });
 });
 

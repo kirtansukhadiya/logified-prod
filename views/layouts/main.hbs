@@ -4,12 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="{{title}}">
+    <meta name="description" content="{{description}}">
+    <meta name="keywords" content="{{keywords}}">
+    <meta name="author" content="LOGIFIED SOLUTIONS PVT LTD">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://logified.in{{url}}">
+    <meta property="og:title" content="{{title}}">
+    <meta property="og:description" content="{{description}}">
+    <meta property="og:image" content="https://logified.in/assets/logo.png">
+    <meta property="og:site_name" content="LOGIFIED SOLUTIONS">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://logified.in{{url}}">
+    <meta property="twitter:title" content="{{title}}">
+    <meta property="twitter:description" content="{{description}}">
+    <meta property="twitter:image" content="https://logified.in/assets/logo.png">
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="geo.region" content="IN">
+    <meta name="geo.placename" content="India">
+    <meta name="geo.position" content="22.3511;78.6677">
+    <meta name="ICBM" content="22.3511, 78.6677">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://logified.in{{url}}">
+    
+    <!-- Favicon and App Icons -->
+    <link rel="icon" type="image/png" href="/assets/logo.png">
+    <link rel="apple-touch-icon" href="/assets/logo.png">
+    <link rel="manifest" href="/manifest.json">
     <script>
         // Immediately apply the saved theme
         const savedTheme = localStorage.getItem('theme') || 'dark';
         document.documentElement.setAttribute('data-theme', savedTheme);
     </script>
-    <link rel="icon" type="image/png" href="assets/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
@@ -34,6 +72,35 @@
     
     <!-- Lottie Animation -->
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "LOGIFIED SOLUTIONS PVT LTD",
+      "url": "https://logified.in",
+      "logo": "https://logified.in/assets/logo.png",
+      "description": "Complete lifting solutions for construction and industrial needs. Specializing in cranes, hoists, and lifting equipment with expert engineering and reliable after-sales support.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "IN",
+        "addressRegion": "India"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+91-7574833707",
+        "contactType": "customer service",
+        "email": "info.logified@gmail.com"
+      },
+      "sameAs": [
+        "https://logified.in"
+      ],
+      "foundingDate": "2025",
+      "industry": "Manufacturing",
+      "keywords": "lifting equipment, cranes, hoists, construction solutions, industrial lifting, EOT cranes, gantry cranes, jib cranes"
+    }
+    </script>
 </head>
 <body class="{{#if (eq currentPage 'home')}}home-page{{/if}}">
     <!-- Header -->

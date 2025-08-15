@@ -13,8 +13,8 @@ const pages = [
     changefreq: 'weekly',
     priority: 1.0,
     lastmod: new Date().toISOString(),
-    title: 'LOGIFIED SOLUTIONS - Complete Lifting Solutions',
-    description: 'Complete lifting solutions for construction and industrial needs. Specializing in cranes, hoists, and lifting equipment.'
+    title: 'LOGIFIED SOLUTIONS - Complete Lifting Solutions | India\'s Premier Lifting Equipment Manufacturer',
+    description: 'LOGIFIED SOLUTIONS is India\'s leading manufacturer of lifting equipment including EOT Cranes, Gantry Cranes, Jib Cranes, and Chain & Wire Rope Hoists. Custom engineering, fast delivery, and 24/7 support.'
   },
   {
     url: '/about',
