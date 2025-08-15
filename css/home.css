@@ -2,7 +2,7 @@
 
 .main-content {
   margin-top: 70px;
-  background-image: url('../assets/Background.jpg');
+  background-image: url('assets/Background.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -360,10 +360,7 @@
 
 /* Products Showcase */
 .products-showcase {
-  background-image: url('../assets/Background.jpg');
-  background-size: 200px 200px;
-  background-repeat: repeat;
-  background-position: center;
+  background: var(--bg-color);
   padding: 4rem 0;
   margin: 2rem 0;
 }
@@ -438,10 +435,7 @@
 
 /* Enhanced CTA Section */
 .cta-section {
-  background-image: url('../assets/Background.jpg');
-  background-size: 200px 200px;
-  background-repeat: repeat;
-  background-position: center;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-color-dark));
   color: white;
   padding: 4rem 0;
   margin: 2rem 0;
@@ -486,10 +480,7 @@
 
 /* Trust Indicators */
 .trust-indicators {
-  background-image: url('../assets/Background.jpg');
-  background-size: 200px 200px;
-  background-repeat: repeat;
-  background-position: center;
+  background: var(--card-bg);
   padding: 4rem 0;
   margin: 2rem 0;
 }
