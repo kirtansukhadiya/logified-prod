@@ -119,10 +119,15 @@
 
 /* Features Grid */
 .features {
+    background-image: url('../assets/Background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
     margin: 4rem 0;
+    padding: 2rem 0;
 }
 
 .feature-card {
