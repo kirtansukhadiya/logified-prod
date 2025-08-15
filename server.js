@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 const cors = require('cors');
 const path = require('path');
 const exphbs = require('express-handlebars');
+const axios = require('axios');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -44,6 +45,22 @@ app.use(bodyParser.json());
 app.use('/css', express.static(path.join(__dirname, '/css')));
 app.use('/js', express.static(path.join(__dirname, '/js')));
 app.use('/assets', express.static(path.join(__dirname, '/assets')));
+
+// Serve sitemap files
+app.get('/sitemap.xml', (req, res) => {
+  res.header('Content-Type', 'application/xml');
+  res.sendFile(path.join(__dirname, 'sitemap.xml'));
+});
+
+app.get('/sitemap.html', (req, res) => {
+  res.header('Content-Type', 'text/html');
+  res.sendFile(path.join(__dirname, 'sitemap.html'));
+});
+
+app.get('/robots.txt', (req, res) => {
+  res.header('Content-Type', 'text/plain');
+  res.sendFile(path.join(__dirname, 'robots.txt'));
+});
 
 // Email transporter configuration
 const transporter = nodemailer.createTransport({
@@ -257,3 +274,15 @@ app.listen(port, () => {
   console.log(`📝 Contact endpoint: http://localhost:${port}/contact`);
   console.log(`🔍 Health check: http://localhost:${port}/health`);
 });
+
+  // Self-pinging function
+const SELF_URL = process.env.SELF_URL || `https://your-app.onrender.com/health`;
+  setInterval(async () => {
+    try {
+      await axios.get(SELF_URL);
+      console.log(`🔄 Self-pinged: ${SELF_URL}`);
+    } catch (err) {
+      console.error('⚠️ Self-ping failed:', err.message);
+    }
+  }, 10 * 60 * 1000); // every 10 minutes
+  

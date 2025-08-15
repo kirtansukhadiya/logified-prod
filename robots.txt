@@ -1,0 +1,19 @@
+# LOGIFIED SOLUTIONS - Robots.txt
+# Generated on 2025-08-15T04:15:17.100Z
+
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://logified.in/sitemap.xml
+Sitemap: https://logified.in/sitemap.html
+
+# Disallow admin or sensitive areas (if any)
+# Disallow: /admin/
+# Disallow: /private/
+
+# Crawl delay (optional)
+# Crawl-delay: 1
+
+# Contact
+# For questions about this robots.txt file, please contact us at kirtanskh@gmail.com
