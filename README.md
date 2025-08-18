@@ -68,7 +68,7 @@ contact-server/
 The server serves static files from the parent directory:
 - `/css/*` - CSS files
 - `/js/*` - JavaScript files
-- `/assets/*` - Images and other assets
+- `/public/assets/*` - Images and other assets
 
 ## Email Configuration
 

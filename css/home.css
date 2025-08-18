@@ -2,7 +2,7 @@
 
 .main-content {
   margin-top: 70px;
-  background-image: url('../assets/Background.jpg');
+  background-image: url('../public/assets/Background.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -127,7 +127,7 @@
 
 /* Second Background Wrapper - from Features until Footer */
 .second-background-wrapper {
-    background-image: url('../assets/Background.jpg');
+    background-image: url('../public/assets/Background.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
