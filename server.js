@@ -44,8 +44,8 @@ app.use(bodyParser.json());
 // Serve static files
 app.use('/css', express.static(path.join(__dirname, '/css')));
 app.use('/js', express.static(path.join(__dirname, '/js')));
-app.use('/assets', express.static(path.join(__dirname, '/assets')));
 app.use('/public', express.static(path.join(__dirname, '/public')));
+app.use('/assets', express.static(path.join(__dirname, '/public/assets')));
 
 // Serve sitemap files
 app.get('/sitemap.xml', (req, res) => {
