@@ -255,7 +255,7 @@ app.post('/contact', async (req, res) => {
     console.error('❌ Error sending email:', error);
     res.status(500).json({ 
       success: false, 
-      message: 'Sorry, there was an error sending your message. Please try again or contact us directly at kirtanskh@gmail.com.' 
+      message: 'Sorry, there was an error sending your message. Please try again or contact us directly at info.logified@gmail.com.' 
     });
   }
 });
