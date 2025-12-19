@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         } catch (error) {
             console.error('❌ Form submission error:', error);
-            showErrorMessage('Network error. Please check your connection and try again, or contact us directly at kirtanskh@gmail.com.');
+            showErrorMessage('Network error. Please check your connection and try again, or contact us directly at info.logified@gmail.com.');
             resetButton();
         }
 
