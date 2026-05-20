@@ -40,7 +40,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify(data)
             });
 
-            const result = await response.json();
+            let result;
+            try {
+                result = await response.json();
+            } catch {
+                throw new Error('Invalid server response');
+            }
+
+            if (!response.ok && !result.message) {
+                result = {
+                    success: false,
+                    message: 'Sorry, there was an error sending your message. Please try again or contact us directly at info.logified@gmail.com.'
+                };
+            }
 
             if (result.success) {
                 // Hide form content with fade (keeping your animation)

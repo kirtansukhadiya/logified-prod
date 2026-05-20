@@ -37,11 +37,12 @@ contact-server/
    ```
 
 2. **Environment Variables**:
-   Create a `.env` file in the `contact-server` directory:
+   Create a `.env` file in the project root (see `env.example`):
    ```env
-   EMAIL_USER=your-email@gmail.com
-   EMAIL_PASS=your-app-password
    PORT=3000
+   EMAIL_USER=info.logified@gmail.com
+   EMAIL_PASS=your-16-char-gmail-app-password
+   SELF_URL=https://logified.in/health
    ```
 
 3. **Start the Server**:
@@ -72,10 +73,14 @@ The server serves static files from the parent directory:
 
 ## Email Configuration
 
-The contact form uses Gmail SMTP. Make sure to:
+The contact form sends mail directly through **Gmail SMTP**.
+
 1. Enable 2-factor authentication on your Gmail account
-2. Generate an App Password
-3. Use the App Password in your `.env` file
+2. Create an **App Password**: Google Account → Security → App passwords
+3. Set `EMAIL_USER` and `EMAIL_PASS` in `.env` (local) and in your **Render** environment variables (production)
+4. Optionally set `CONTACT_TO` if inquiries should go to a different inbox than `EMAIL_USER`
+
+On Render, add `EMAIL_USER` and `EMAIL_PASS` under Environment, then redeploy.
 
 ## Development
 

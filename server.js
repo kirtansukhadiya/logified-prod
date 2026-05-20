@@ -1,12 +1,12 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const nodemailer = require('nodemailer');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const exphbs = require('express-handlebars');
 const axios = require('axios');
+const { sendContactEmail, verifyEmailConfig } = require('./email');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -88,23 +88,13 @@ app.get('/manifest.json', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/manifest.json'));
 });
 
-// Email transporter configuration
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
-
-// Verify transporter configuration
-transporter.verify((error, success) => {
-  if (error) {
-    console.error('❌ Email configuration error:', error);
-    console.error('❌ Email user:', process.env.EMAIL_USER);
-    console.error('❌ Email pass length:', process.env.EMAIL_PASS ? process.env.EMAIL_PASS.length : 0);
+// Verify email configuration at startup
+verifyEmailConfig().then((status) => {
+  if (status.ready) {
+    console.log(`✅ Email ready (${status.provider}) → ${status.to}`);
   } else {
-    console.log('✅ Email server is ready to send messages');
+    console.error('❌ Email not configured:', status.reason || 'missing_credentials');
+    console.error('   Set EMAIL_USER and EMAIL_PASS (Gmail App Password)');
   }
 });
 
@@ -194,90 +184,9 @@ app.post('/contact', async (req, res) => {
       });
     }
 
-    // Email options
-    const mailOptions = {
-      from: `"LOGIFIED SOLUTIONS" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER,
-      subject: `🏗️ New Inquiry from ${name} - LOGIFIED SOLUTIONS`,
-      html: `
-        <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #f8f9fa; padding: 20px;">
-          <div style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <div style="background: linear-gradient(135deg, #007bff, #0056b3); padding: 30px; text-align: center;">
-              <h1 style="color: white; margin: 0; font-size: 24px; font-weight: 600;">
-                🏗️ LOGIFIED SOLUTIONS
-              </h1>
-              <p style="color: #e3f2fd; margin: 10px 0 0 0; font-size: 16px;">
-                New Contact Form Inquiry
-              </p>
-            </div>
-            
-            <div style="padding: 30px;">
-              <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                <h3 style="color: #333; margin: 0 0 15px 0; font-size: 18px;">Contact Details</h3>
-                <p style="margin: 8px 0; color: #555;">
-                  <strong style="color: #333;">👤 Name:</strong> ${name}
-                </p>
-                <p style="margin: 8px 0; color: #555;">
-                  <strong style="color: #333;">📧 Email:</strong> 
-                  <a href="mailto:${email}" style="color: #007bff; text-decoration: none;">${email}</a>
-                </p>
-                ${phone ? `
-                <p style="margin: 8px 0; color: #555;">
-                  <strong style="color: #333;">📱 Phone:</strong> 
-                  <a href="tel:${phone}" style="color: #007bff; text-decoration: none;">${phone}</a>
-                </p>
-                ` : ''}
-              </div>
-              
-              <div style="background: #fff; border: 1px solid #dee2e6; border-radius: 8px; padding: 20px;">
-                <h3 style="color: #333; margin: 0 0 15px 0; font-size: 18px;">💬 Message</h3>
-                <div style="background: #f8f9fa; padding: 15px; border-left: 4px solid #007bff; border-radius: 4px; line-height: 1.6; color: #555;">
-                  ${message.replace(/\n/g, '<br>')}
-                </div>
-              </div>
-              
-              <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #dee2e6;">
-                <p style="color: #666; font-size: 14px; margin: 0;">
-                  🕒 Received on ${new Date().toLocaleString('en-IN', { 
-                    timeZone: 'Asia/Kolkata',
-                    dateStyle: 'full',
-                    timeStyle: 'short'
-                  })}
-                </p>
-                <p style="color: #666; font-size: 12px; margin: 10px 0 0 0;">
-                  Sent from LOGIFIED SOLUTIONS contact form
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      `,
-      text: `
-        LOGIFIED SOLUTIONS - New Contact Form Inquiry
-        ============================================
-        
-        Contact Details:
-        Name: ${name}
-        Email: ${email}
-        ${phone ? `Phone: ${phone}` : ''}
-        
-        Message:
-        ${message}
-        
-        ============================================
-        Received on: ${new Date().toLocaleString('en-IN', { 
-          timeZone: 'Asia/Kolkata',
-          dateStyle: 'full',
-          timeStyle: 'short'
-        })}
-        Sent from LOGIFIED SOLUTIONS contact form
-      `
-    };
+    const result = await sendContactEmail({ name, email, phone, message });
 
-    // Send email
-    await transporter.sendMail(mailOptions);
-    
-    console.log(`📧 Email sent from ${name} (${email}) ${phone ? `- Phone: ${phone}` : ''}`);
+    console.log(`📧 Email sent via ${result.provider} from ${name} (${email}) ${phone ? `- Phone: ${phone}` : ''}`);
     
     res.status(200).json({ 
       success: true, 
@@ -285,7 +194,15 @@ app.post('/contact', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Error sending email:', error);
+    console.error('❌ Error sending email:', error.message || error);
+
+    if (error.code === 'EMAIL_NOT_CONFIGURED') {
+      return res.status(503).json({
+        success: false,
+        message: 'Contact form is temporarily unavailable. Please email us directly at info.logified@gmail.com.'
+      });
+    }
+
     res.status(500).json({ 
       success: false, 
       message: 'Sorry, there was an error sending your message. Please try again or contact us directly at info.logified@gmail.com.' 
@@ -323,14 +240,16 @@ app.use((error, req, res, next) => {
 // Start server
 app.listen(port, () => {
   console.log(`🚀 LOGIFIED SOLUTIONS Unified Server running on port ${port}`);
-  console.log(`📧 Email configured for: ${process.env.EMAIL_USER}`);
+  verifyEmailConfig().then((emailStatus) => {
+    console.log(`📧 Email: ${emailStatus.ready ? `ready (${emailStatus.provider})` : 'NOT configured'}`);
+  });
   console.log(`🌐 Website: http://localhost:${port}`);
   console.log(`📝 Contact endpoint: http://localhost:${port}/contact`);
   console.log(`🔍 Health check: http://localhost:${port}/health`);
 });
 
   // Self-pinging function
-const SELF_URL = process.env.SELF_URL || `https://your-app.onrender.com/health`;
+const SELF_URL = process.env.SELF_URL || 'https://logified.in/health';
   setInterval(async () => {
     try {
       await axios.get(SELF_URL);
