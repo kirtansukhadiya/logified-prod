@@ -1,4 +1,17 @@
+const dns = require('dns');
 const nodemailer = require('nodemailer');
+
+// Render often has no working IPv6 route to Gmail; force IPv4 DNS lookup
+if (typeof dns.setDefaultResultOrder === 'function') {
+  dns.setDefaultResultOrder('ipv4first');
+}
+
+function ipv4Lookup(hostname, options, callback) {
+  dns.lookup(hostname, { family: 4 }, (err, address, family) => {
+    if (err) return callback(err);
+    callback(null, address, family);
+  });
+}
 
 function getEmailConfig() {
   const user = (process.env.EMAIL_USER || process.env.GMAIL_USER || '').trim();
@@ -82,6 +95,7 @@ function createGmailTransporter(user, pass) {
     port,
     secure,
     auth: { user, pass },
+    lookup: ipv4Lookup,
     connectionTimeout: 10000,
     greetingTimeout: 10000,
     socketTimeout: 15000,

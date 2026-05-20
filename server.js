@@ -91,10 +91,11 @@ app.get('/manifest.json', (req, res) => {
 // Verify email configuration at startup
 verifyEmailConfig().then((status) => {
   if (status.ready) {
-    console.log(`✅ Email ready (${status.provider}) → ${status.to}`);
+    console.log(`✅ Gmail ready → ${status.to}`);
+  } else if (status.reason === 'missing_credentials') {
+    console.error('❌ Gmail not configured — set EMAIL_USER and EMAIL_PASS (App Password)');
   } else {
-    console.error('❌ Email not configured:', status.reason || 'missing_credentials');
-    console.error('   Set EMAIL_USER and EMAIL_PASS (Gmail App Password)');
+    console.error('❌ Gmail connection failed:', status.reason);
   }
 });
 
