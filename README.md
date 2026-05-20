@@ -40,8 +40,9 @@ contact-server/
    Create a `.env` file in the project root (see `env.example`):
    ```env
    PORT=3000
-   EMAIL_USER=info.logified@gmail.com
-   EMAIL_PASS=your-16-char-gmail-app-password
+   RESEND_API_KEY=re_your_api_key
+   EMAIL_FROM=LOGIFIED SOLUTIONS <noreply@logified.in>
+   CONTACT_TO=info.logified@gmail.com
    SELF_URL=https://logified.in/health
    ```
 
@@ -73,14 +74,17 @@ The server serves static files from the parent directory:
 
 ## Email Configuration
 
-The contact form sends mail directly through **Gmail SMTP**.
+The contact form sends mail through **[Resend](https://resend.com)** (HTTPS — works reliably on Render).
 
-1. Enable 2-factor authentication on your Gmail account
-2. Create an **App Password**: Google Account → Security → App passwords
-3. Set `EMAIL_USER` and `EMAIL_PASS` in `.env` (local) and in your **Render** environment variables (production)
-4. Optionally set `CONTACT_TO` if inquiries should go to a different inbox than `EMAIL_USER`
+1. Sign up at [resend.com](https://resend.com) and create an API key
+2. Add domain **logified.in** in Resend and complete DNS verification
+3. Set environment variables (local `.env` and **Render**):
+   - `RESEND_API_KEY` — your API key
+   - `EMAIL_FROM` — e.g. `LOGIFIED SOLUTIONS <noreply@logified.in>` (must use verified domain)
+   - `CONTACT_TO` — `info.logified@gmail.com` (inbox that receives inquiries)
+4. Redeploy on Render
 
-On Render, add `EMAIL_USER` and `EMAIL_PASS` under Environment, then redeploy.
+Until your domain is verified, you can test with `EMAIL_FROM=LOGIFIED SOLUTIONS <onboarding@resend.dev>` (Resend test sender).
 
 ## Development
 

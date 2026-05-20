@@ -91,11 +91,9 @@ app.get('/manifest.json', (req, res) => {
 // Verify email configuration at startup
 verifyEmailConfig().then((status) => {
   if (status.ready) {
-    console.log(`✅ Gmail ready → ${status.to}`);
-  } else if (status.reason === 'missing_credentials') {
-    console.error('❌ Gmail not configured — set EMAIL_USER and EMAIL_PASS (App Password)');
+    console.log(`✅ Resend ready — ${status.from} → ${status.to}`);
   } else {
-    console.error('❌ Gmail connection failed:', status.reason);
+    console.error('❌ Resend not configured — set RESEND_API_KEY on Render');
   }
 });
 
@@ -242,7 +240,7 @@ app.use((error, req, res, next) => {
 app.listen(port, () => {
   console.log(`🚀 LOGIFIED SOLUTIONS Unified Server running on port ${port}`);
   verifyEmailConfig().then((emailStatus) => {
-    console.log(`📧 Email: ${emailStatus.ready ? `ready (${emailStatus.provider})` : 'NOT configured'}`);
+    console.log(`📧 Resend: ${emailStatus.ready ? 'ready' : 'NOT configured'}`);
   });
   console.log(`🌐 Website: http://localhost:${port}`);
   console.log(`📝 Contact endpoint: http://localhost:${port}/contact`);

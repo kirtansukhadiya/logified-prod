@@ -1,24 +1,11 @@
-const dns = require('dns');
-const nodemailer = require('nodemailer');
-
-// Render often has no working IPv6 route to Gmail; force IPv4 DNS lookup
-if (typeof dns.setDefaultResultOrder === 'function') {
-  dns.setDefaultResultOrder('ipv4first');
-}
-
-function ipv4Lookup(hostname, options, callback) {
-  dns.lookup(hostname, { family: 4 }, (err, address, family) => {
-    if (err) return callback(err);
-    callback(null, address, family);
-  });
-}
+const axios = require('axios');
 
 function getEmailConfig() {
-  const user = (process.env.EMAIL_USER || process.env.GMAIL_USER || '').trim();
-  const pass = (process.env.EMAIL_PASS || process.env.GMAIL_APP_PASSWORD || '').replace(/\s/g, '');
-  const contactTo = (process.env.CONTACT_TO || user || 'info.logified@gmail.com').trim();
+  const resendApiKey = (process.env.RESEND_API_KEY || '').trim();
+  const contactTo = (process.env.CONTACT_TO || 'info.logified@gmail.com').trim();
+  const emailFrom = (process.env.EMAIL_FROM || 'LOGIFIED SOLUTIONS <onboarding@resend.dev>').trim();
 
-  return { user, pass, contactTo };
+  return { resendApiKey, contactTo, emailFrom };
 }
 
 function buildContactEmailContent({ name, email, phone, message }) {
@@ -84,66 +71,56 @@ function escapeHtml(value) {
     .replace(/'/g, '&#39;');
 }
 
-function createGmailTransporter(user, pass) {
-  const port = Number(process.env.SMTP_PORT || 465);
-  const secure = process.env.SMTP_SECURE !== undefined
-    ? process.env.SMTP_SECURE === 'true'
-    : port === 465;
-
-  return nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port,
-    secure,
-    auth: { user, pass },
-    lookup: ipv4Lookup,
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-    socketTimeout: 15000,
-    ...(port === 587 && { requireTLS: true })
-  });
-}
-
-async function sendViaGmail({ name, email, phone, message }, config) {
-  const transporter = createGmailTransporter(config.user, config.pass);
+async function sendViaResend({ name, email, phone, message }, config) {
   const content = buildContactEmailContent({ name, email, phone, message });
 
-  await transporter.sendMail({
-    from: `"LOGIFIED SOLUTIONS" <${config.user}>`,
-    to: config.contactTo,
-    replyTo: email,
-    subject: content.subject,
-    html: content.html,
-    text: content.text
-  });
+  try {
+    const response = await axios.post(
+      'https://api.resend.com/emails',
+      {
+        from: config.emailFrom,
+        to: [config.contactTo],
+        reply_to: email,
+        subject: content.subject,
+        html: content.html,
+        text: content.text
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${config.resendApiKey}`,
+          'Content-Type': 'application/json'
+        },
+        timeout: 15000
+      }
+    );
+    return response.data;
+  } catch (error) {
+    const apiMessage = error.response?.data?.message;
+    throw new Error(apiMessage || error.message);
+  }
 }
 
 async function sendContactEmail(payload) {
   const config = getEmailConfig();
 
-  if (!config.user || !config.pass) {
-    const error = new Error('Gmail is not configured. Set EMAIL_USER and EMAIL_PASS (Gmail App Password).');
+  if (!config.resendApiKey) {
+    const error = new Error('Resend is not configured. Set RESEND_API_KEY in your environment.');
     error.code = 'EMAIL_NOT_CONFIGURED';
     throw error;
   }
 
-  await sendViaGmail(payload, config);
-  return { provider: 'gmail', to: config.contactTo };
+  await sendViaResend(payload, config);
+  return { provider: 'resend', to: config.contactTo };
 }
 
 async function verifyEmailConfig() {
   const config = getEmailConfig();
 
-  if (!config.user || !config.pass) {
+  if (!config.resendApiKey) {
     return { ready: false, provider: null, reason: 'missing_credentials' };
   }
 
-  try {
-    const transporter = createGmailTransporter(config.user, config.pass);
-    await transporter.verify();
-    return { ready: true, provider: 'gmail', to: config.contactTo };
-  } catch (error) {
-    return { ready: false, provider: 'gmail', reason: error.message };
-  }
+  return { ready: true, provider: 'resend', to: config.contactTo, from: config.emailFrom };
 }
 
 module.exports = {
