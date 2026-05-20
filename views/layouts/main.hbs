@@ -54,12 +54,16 @@
     <link rel="stylesheet" href="/css/style.css">
     {{#if (eq currentPage 'home')}}
     <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/gallery.css">
     {{/if}}
     {{#if (eq currentPage 'about')}}
     <link rel="stylesheet" href="/css/about.css">
     {{/if}}
     {{#if (eq currentPage 'products')}}
     <link rel="stylesheet" href="/css/products.css">
+    {{/if}}
+    {{#if (eq currentPage 'product-gallery')}}
+    <link rel="stylesheet" href="/css/gallery.css">
     {{/if}}
     {{#if (eq currentPage 'contact')}}
     <link rel="stylesheet" href="/css/contact.css">
@@ -112,6 +116,7 @@
                 <li><a href="/" class="{{#if (eq currentPage 'home')}}active{{/if}}">Home</a></li>
                 <li><a href="/about" class="{{#if (eq currentPage 'about')}}active{{/if}}">About Us</a></li>
                 <li><a href="/products" class="{{#if (eq currentPage 'products')}}active{{/if}}">Products & Services</a></li>
+                <li><a href="/product-gallery" class="{{#if (eq currentPage 'product-gallery')}}active{{/if}}">Product Gallery</a></li>
                 <li><a href="/why-choose" class="{{#if (eq currentPage 'why-choose')}}active{{/if}}">Why Choose Us</a></li>
                 <li><a href="/contact" class="{{#if (eq currentPage 'contact')}}active{{/if}}">Contact Us</a></li>
                 <button class="theme-toggle" onclick="toggleTheme()">
@@ -150,6 +155,7 @@
               <p><a href="/">Home</a></p>
               <p><a href="/about">About Us</a></p>
               <p><a href="/products">Products & Services</a></p>
+              <p><a href="/product-gallery">Product Gallery</a></p>
               <p><a href="/why-choose">Why Choose Us</a></p>
               <p><a href="/contact">Contact Us</a></p>
             </div>
@@ -180,6 +186,12 @@
     <script src="/js/main.js"></script>
     {{#if (eq currentPage 'contact')}}
     <script src="/js/form.js"></script>
+    {{/if}}
+    {{#if (eq currentPage 'product-gallery')}}
+    <script src="/js/gallery.js"></script>
+    {{/if}}
+    {{#if (eq currentPage 'home')}}
+    <script src="/js/gallery.js"></script>
     {{/if}}
 </body>
 </html>

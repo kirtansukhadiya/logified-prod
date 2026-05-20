@@ -33,6 +33,14 @@ const pages = [
     description: 'Explore our comprehensive range of lifting equipment, cranes, hoists, and construction solutions.'
   },
   {
+    url: '/product-gallery',
+    changefreq: 'weekly',
+    priority: 0.8,
+    lastmod: new Date().toISOString(),
+    title: 'Product Gallery - LOGIFIED SOLUTIONS',
+    description: 'Browse photos of LOGIFIED SOLUTIONS lifting equipment, crane installations, and manufacturing work.'
+  },
+  {
     url: '/why-choose',
     changefreq: 'monthly',
     priority: 0.7,

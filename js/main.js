@@ -29,7 +29,7 @@ function initScrollAnimations() {
   });
 
   // Observe elements that should animate on scroll
-  document.querySelectorAll('.feature-card, .product-card, .about-content, .about-image, .products-box, .services-box').forEach(card => {
+  document.querySelectorAll('.feature-card, .product-card, .about-content, .about-image, .products-box, .services-box, .gallery-item').forEach(card => {
     observer.observe(card);
   });
 }

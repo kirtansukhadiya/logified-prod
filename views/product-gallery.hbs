@@ -1,0 +1,16 @@
+<div class="container">
+    <h1 class="section-title">Product Gallery</h1>
+    <p class="section-subtitle">Photos of our lifting equipment, installations, and manufacturing work. Click any image to enlarge.</p>
+
+    {{#if images}}
+    <div class="gallery-grid">
+        {{#each images}}
+        <button type="button" class="gallery-item fade-in" data-gallery data-src="{{src}}" data-alt="{{alt}}" aria-label="View larger: {{alt}}">
+            <img src="{{src}}" alt="{{alt}}" loading="lazy">
+        </button>
+        {{/each}}
+    </div>
+    {{else}}
+    <p class="gallery-empty">No photos are available in the gallery folder yet.</p>
+    {{/if}}
+</div>

@@ -452,6 +452,38 @@
   background: var(--primary-color-dark);
 }
 
+/* Gallery preview on home */
+.gallery-preview {
+  padding: 4rem 0;
+  background: var(--card-bg-hover);
+}
+
+.gallery-preview h2 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.gallery-preview > .container > p {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--secondary-color);
+  margin-bottom: 2.5rem;
+}
+
+.gallery-grid--preview {
+  margin-bottom: 2rem;
+}
+
+.gallery-preview-cta {
+  text-align: center;
+}
+
+.gallery-preview-cta .cta-button {
+  display: inline-block;
+}
+
 /* Enhanced CTA Section */
 .cta-section {
   background: linear-gradient(135deg, var(--primary-color), var(--primary-color-dark));

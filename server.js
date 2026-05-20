@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
+const fs = require('fs');
 const path = require('path');
 const exphbs = require('express-handlebars');
 const axios = require('axios');
@@ -47,6 +48,25 @@ app.use('/js', express.static(path.join(__dirname, '/js')));
 app.use('/public', express.static(path.join(__dirname, '/public')));
 app.use('/assets', express.static(path.join(__dirname, '/public/assets')));
 
+const galleryDir = [path.join(__dirname, 'Gallery'), path.join(__dirname, 'gallery')]
+  .find((dir) => fs.existsSync(dir));
+if (galleryDir) {
+  app.use('/gallery', express.static(galleryDir));
+}
+
+function getGalleryImages() {
+  if (!galleryDir) return [];
+
+  const imageExtensions = new Set(['.jpg', '.jpeg', '.png', '.gif', '.webp', '.avif']);
+  return fs.readdirSync(galleryDir)
+    .filter((file) => imageExtensions.has(path.extname(file).toLowerCase()))
+    .sort()
+    .map((file, index) => ({
+      src: `/gallery/${encodeURIComponent(file)}`,
+      alt: `LOGIFIED lifting equipment ${index + 1}`
+    }));
+}
+
 // Serve sitemap files
 app.get('/sitemap.xml', (req, res) => {
   res.header('Content-Type', 'application/xml');
@@ -90,12 +110,14 @@ transporter.verify((error, success) => {
 
 // Routes
 app.get('/', (req, res) => {
+  const galleryImages = getGalleryImages();
   res.render('home', {
     title: 'LOGIFIED SOLUTIONS - Complete Lifting Solutions | India\'s Premier Lifting Equipment Manufacturer',
     description: 'LOGIFIED SOLUTIONS is India\'s leading manufacturer of lifting equipment including EOT Cranes, Gantry Cranes, Jib Cranes, and Chain & Wire Rope Hoists. Custom engineering, fast delivery, and 24/7 support.',
     keywords: 'LOGIFIED SOLUTIONS, lifting equipment, cranes, hoists, EOT cranes, gantry cranes, jib cranes, India, manufacturer, industrial lifting, construction equipment, custom engineering',
     currentPage: 'home',
-    url: req.url
+    url: req.url,
+    previewImages: galleryImages.slice(0, 4)
   });
 });
 
@@ -116,6 +138,17 @@ app.get('/products', (req, res) => {
     keywords: 'LOGIFIED SOLUTIONS products, EOT cranes, gantry cranes, jib cranes, lifting equipment, industrial cranes',
     currentPage: 'products',
     url: req.url
+  });
+});
+
+app.get('/product-gallery', (req, res) => {
+  res.render('product-gallery', {
+    title: 'Product Gallery | LOGIFIED SOLUTIONS Lifting Equipment',
+    description: 'Browse LOGIFIED SOLUTIONS product gallery featuring EOT cranes, gantry cranes, hoists, and industrial lifting equipment installations.',
+    keywords: 'LOGIFIED SOLUTIONS gallery, lifting equipment photos, crane installations, industrial cranes India',
+    currentPage: 'product-gallery',
+    url: req.url,
+    images: getGalleryImages()
   });
 });
 

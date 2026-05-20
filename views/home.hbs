@@ -7,6 +7,7 @@
       <div class="hero-buttons">
         <a href="/contact" class="cta-button primary">Get Free Quote</a>
         <a href="/products" class="cta-button secondary">View Products</a>
+        <a href="/product-gallery" class="cta-button secondary">View Gallery</a>
       </div>
       <div class="hero-image">
         <img src="/public/assets/crane.png" alt="LOGIFIED SOLUTIONS - Industrial Lifting Equipment and Cranes" class="featured-image">
@@ -106,6 +107,26 @@
   </div>
 </div>
 
+{{#if previewImages}}
+<!-- Gallery Preview -->
+<div class="gallery-preview">
+  <div class="container">
+    <h2>Product Gallery</h2>
+    <p>See our lifting equipment and installations in action</p>
+    <div class="gallery-grid gallery-grid--preview">
+      {{#each previewImages}}
+      <button type="button" class="gallery-item" data-gallery data-src="{{src}}" data-alt="{{alt}}" aria-label="View larger: {{alt}}">
+        <img src="{{src}}" alt="{{alt}}" loading="lazy">
+      </button>
+      {{/each}}
+    </div>
+    <div class="gallery-preview-cta">
+      <a href="/product-gallery" class="cta-button secondary">View Full Gallery</a>
+    </div>
+  </div>
+</div>
+{{/if}}
+
 <!-- CTA Section -->
 <div class="cta-section">
   <div class="container">
@@ -147,5 +168,4 @@
       </div>
     </div>
   </div>
-</div>
 </div>
